@@ -25,13 +25,13 @@ game = Game()
 # Глобальные значения
 LEN_OF_GENOM = len(neuralNet.getWeights())
 LEN_OF_POPULATIONS = 100
-MAX_GENERATIONS = 21
-HALL_OF_FAME_SIZE = 21
+MAX_GENERATIONS = 50
+HALL_OF_FAME_SIZE = max(int(MAX_GENERATIONS / 4), 2)
 P_CROSSOVER = 0.9
 P_MUTATION = 0.1
 LOW = -2.0
 UP = 2.0
-ETA = 6
+ETA = 42
 
 # Создание зала славы
 hof = tools.HallOfFame(HALL_OF_FAME_SIZE)
@@ -69,6 +69,8 @@ def getScore(ind):
     if len(hof.items) > 0:
         randomInt = rd.randint(0, (len(hof.items) - 1))
         best = hof.items[randomInt]
+        if len(hof.items) >= HALL_OF_FAME_SIZE:
+            hof.remove(rd.randint(0, max((len(hof.items) - 1), 1)))
 
     resultReward = 0
     counter = 0
